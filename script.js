@@ -2,13 +2,27 @@
 document.addEventListener('DOMContentLoaded', function () {
     
     // Select DOM elements
-    const addButton = document.getElementById('add-task-btn'); // Matches your HTML button ID
+    const addButton = document.getElementById('add-task-btn'); // "Add Task" button
     const taskInput = document.getElementById('task-input');   // Input field
     const taskList = document.getElementById('task-list');     // UL element
 
+    // Function to create a remove button
+    function createRemoveButton(li) {
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.classList.add('remove-btn'); // Using classList.add
+
+        // Remove functionality
+        removeButton.addEventListener('click', function () {
+            taskList.removeChild(li);
+        });
+
+        return removeButton;
+    }
+
     // Function to add a new task
     function addTask() {
-        const taskText = taskInput.value.trim(); // Get and clean input value
+        const taskText = taskInput.value.trim(); // Get input and trim spaces
 
         if (taskText === '') {
             alert('Please enter a task.');
@@ -18,19 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Create a new list item
         const li = document.createElement('li');
         li.textContent = taskText;
+        li.classList.add('task-item'); // Add CSS class
 
-        // Create a remove button
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.className = 'remove-btn';
-
-        // Add remove functionality
-        removeButton.onclick = function () {
-            taskList.removeChild(li);
-        };
-
-        // Append the remove button and list item
+        // Create and append remove button
+        const removeButton = createRemoveButton(li);
         li.appendChild(removeButton);
+
+        // Append the list item to the task list
         taskList.appendChild(li);
 
         // Clear the input field
